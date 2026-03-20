@@ -9,7 +9,10 @@
     "test:tablet": "cypress run --config viewportWidth=768,viewportHeight=1024",
     "test:mobile": "cypress run --config viewportWidth=375,viewportHeight=667",
     "start:back":"cd server && npm run start",
-    "start:front": "cd web && npm run start"
+    "start:front": "cd web && npm run start",
+    "report:merge": "npx mochawesome-merge cypress/reports/*.json > cypress/reports/report.json",
+    "report:generate": "npx marge cypress/reports/report.json -f report -o cypress/reports",
+    "report": "npm run report:merge && npm run report:generate"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
