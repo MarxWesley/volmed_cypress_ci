@@ -4,17 +4,13 @@
 const { defineConfig } = require("cypress");
                                                                                                                                                                                                                                             
 module.exports = defineConfig({
-  env: {
-    "email": "clinica@drdoom.com",
-    "password": "drdoom123",
-    "requestMode": true
-  },
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
     baseUrl: 'http://localhost:3000',
     video: true,
+    screenshotOnRunFailure: true,
     reporter: 'mochawesome',
     reporterOptions: {
       reportDir: 'cypress/reports',

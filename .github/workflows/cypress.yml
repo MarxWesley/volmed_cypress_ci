@@ -52,9 +52,28 @@ jobs:
           path: cypress/reports
 
       - name: Upload evidências
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-artifacts
           path: |
             cypress/screenshots
             cypress/videos
+
+      - name: Enviar relatório por email
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Cypress Tests - ${{ job.status }}"
+          body: |
+            Status: ${{ job.status }}
+
+            Ver execução:
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          to: ${{ secrets.EMAIL_TO }}
+          from: "Cypress CI <${{ secrets.EMAIL_USERNAME }}>"
+          attachments: cypress/reports/report.html
