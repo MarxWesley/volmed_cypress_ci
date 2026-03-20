@@ -42,6 +42,7 @@ jobs:
           spec: cypress/e2e/**.cy.js
 
       - name: Gerar relatório Mochawesome
+        if: always()
         run: |
           npm run report
 
