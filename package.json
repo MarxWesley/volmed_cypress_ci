@@ -1,0 +1,22 @@
+{
+  "scripts": {
+    "lint": "eslint cypress",
+    "lint:fix": "eslint cypress --fix",
+    "test": "cypress run",
+    "test:browser:edge": "cypress run --browser edge",
+    "test:browser:chrome": "cypress run --browser chrome",
+    "test:browser:electron": "cypress run --browser electron",
+    "test:tablet": "cypress run --config viewportWidth=768,viewportHeight=1024",
+    "test:mobile": "cypress run --config viewportWidth=375,viewportHeight=667",
+    "start:back":"cd server && npm run start",
+    "start:front": "cd web && npm run start"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@faker-js/faker": "^10.3.0",
+    "cypress": "^13.7.2",
+    "eslint": "^10.0.2",
+    "eslint-plugin-cypress": "^6.1.0",
+    "mochawesome": "^7.1.3"
+  }
+}
