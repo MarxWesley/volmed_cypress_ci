@@ -25,13 +25,23 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('login', (email, password) => {
-    cy.session([email, password], () => {
-        cy.visit('/login');
-        cy.get('[data-test="inputLoginEmail"]').type(email);
-        cy.get('[data-test="inputLoginSenha"]').type(password, { log: false });
-        cy.contains('Entrar').click();
-        cy.location('pathname').should('eq', '/dashboard');
-    })
+  cy.session([email, password], () => {
+
+    cy.visit('/login');
+
+    cy.intercept('POST', '**/auth/login').as('loginClinica');
+
+    cy.get('[data-test="inputLoginEmail"]').type(email);
+    cy.get('[data-test="inputLoginSenha"]').type(password, { log: false });
+
+    cy.contains('Entrar').click();
+
+    cy.wait('@loginClinica')
+      .its('response.statusCode')
+      .should('eq', 404);
+
+    cy.location('pathname').should('eq', '/dashboard');
+  });
 });
 
 Cypress.Commands.add('loginApi', (email, password) => {

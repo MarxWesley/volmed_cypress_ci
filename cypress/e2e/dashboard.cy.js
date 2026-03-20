@@ -1,5 +1,5 @@
 import DashboardPage from "../support/pages/Dashboard";
-import {DoctorDataFaker} from "./utils/GlobalDataFaker";
+import DoctorDataFaker from "./utils/DoctorDataFaker";
 
 const dashBoardPage = DashboardPage();
 const doctor = DoctorDataFaker();
@@ -230,7 +230,7 @@ describe('Usuário logado - Dashboard', () => {
             cy.contains('h2', 'Cadastre o especialista inserindo os dados abaixo:');
         })
 
-        it.only("Cadastrar especialista sem CRM - não permite", () => {
+        it("Cadastrar especialista sem CRM - não permite", () => {
             cy.get(dashBoardPage.inputEspecialistaNome).type(doctor.nome);
             cy.get(dashBoardPage.inputEspecialistaEmail).type(doctor.email);
             cy.get(dashBoardPage.inputEspecialistaSenha).type(doctor.senha, { log: false });

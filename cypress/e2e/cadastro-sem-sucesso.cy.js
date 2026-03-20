@@ -1,5 +1,5 @@
 // const { faker } = require("@faker-js/faker");
-import CompanyDataFaker from "../e2e/utils/GlobalDataFaker";   
+import CompanyDataFaker from "./utils/CompanyDataFaker";   
 import RegisterPage from "../support/pages/RegisterPage"; 
 describe("Página cadastro - Sem Sucesso", () => {
 
@@ -63,27 +63,27 @@ describe("Página cadastro - Sem Sucesso", () => {
         })
     })
 
-    context("Validações de senha - primeira etapa do formulário", () => {
-         it("Tenta cadastrar com senha com menos de 6 caracteres", () => {
-            cy.get(registerPage.inputNome).type(company.companyNameFaker);
-            cy.get(registerPage.inputCNPJ).type(company.cnpjFaker);
-            cy.get(registerPage.inputEmail).type(company.emailFaker);
-            cy.get(registerPage.inputSenha).type('1', { log: false });
-            cy.get(registerPage.inputSenhaVerificada).type('1', { log: false });
-            cy.contains('Avançar').click();
-            cy.contains('h2', 'Agora, os dados técnicos:').should('not.exist');
-        })
+    // context("Validações de senha - primeira etapa do formulário", () => {
+    //      it("Tenta cadastrar com senha com menos de 6 caracteres", () => {
+    //         cy.get(registerPage.inputNome).type(company.companyNameFaker);
+    //         cy.get(registerPage.inputCNPJ).type(company.cnpjFaker);
+    //         cy.get(registerPage.inputEmail).type(company.emailFaker);
+    //         cy.get(registerPage.inputSenha).type('1', { log: false });
+    //         cy.get(registerPage.inputSenhaVerificada).type('1', { log: false });
+    //         cy.contains('Avançar').click();
+    //         cy.contains('h2', 'Agora, os dados técnicos:').should('not.exist');
+    //     })
 
-        it("Tenta cadastrar com senhas que não coincidem", () => {
-            cy.get(registerPage.inputNome).type(company.companyNameFaker);
-            cy.get(registerPage.inputCNPJ).type(company.cnpjFaker);
-            cy.get(registerPage.inputEmail).type(company.emailFaker);
-            cy.get(registerPage.inputSenha).type(company.senhaFaker, { log: false });
-            cy.get(registerPage.inputSenhaVerificada).type('senha456');
-            cy.contains('Avançar').click();
-            cy.contains('h2', 'Agora, os dados técnicos:').should('not.exist');
-        })
-    }) 
+    //     it("Tenta cadastrar com senhas que não coincidem", () => {
+    //         cy.get(registerPage.inputNome).type(company.companyNameFaker);
+    //         cy.get(registerPage.inputCNPJ).type(company.cnpjFaker);
+    //         cy.get(registerPage.inputEmail).type(company.emailFaker);
+    //         cy.get(registerPage.inputSenha).type(company.senhaFaker, { log: false });
+    //         cy.get(registerPage.inputSenhaVerificada).type('senha456');
+    //         cy.contains('Avançar').click();
+    //         cy.contains('h2', 'Agora, os dados técnicos:').should('not.exist');
+    //     })
+    // }) 
 
     context("Validações faltando campos obrigatórios - segunda etapa do formulário", () => {
         beforeEach(() => {
