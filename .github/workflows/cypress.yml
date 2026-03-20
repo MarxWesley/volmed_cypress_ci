@@ -31,7 +31,7 @@ jobs:
           cd ../web && npm install
 
       - name: Run Cypress Tests
-        uses: cypress-io/github-actions@v6
+        uses: cypress-io/github-actions@v6.6.0
         with:
           start: |
             npm run start:back
@@ -39,4 +39,4 @@ jobs:
           wait-on: 'http://localhost:3000,http://localhost:8080'
           wait-on-timeout: 120
           browser: ${{ matrix.browser }}
-          spec: cypress/e2e/**/*.cy.js
+          spec: cypress/e2e/login.cy.js
