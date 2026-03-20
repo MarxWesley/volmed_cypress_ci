@@ -31,7 +31,7 @@ jobs:
           cd ../web && npm install
 
       - name: Run Cypress Tests
-        uses: cypress-io/github-actions@v6.6.0
+        uses: cypress-io/github-action@v7
         with:
           start: |
             npm run start:back
