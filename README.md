@@ -156,6 +156,46 @@ Ao final da pipeline:
 
 ---
 
+## ⚠️ Configuração necessária para envio de email
+
+Para que o envio de email funcione corretamente, é necessário configurar:
+
+#### 1 . Senha de App (Gmail)
+
+Se estiver utilizando Gmail, não é possível usar a senha normal da conta.
+
+* Você deve gerar uma App Password:
+
+* Acesse: Conta Google → Segurança
+
+* Ative a verificação em duas etapas
+
+* Gere uma senha de app
+
+---
+
+#### 2. Secrets no GitHub
+
+No repositório, vá em:
+
+> Settings → Secrets → Actions
+
+E crie as seguintes variáveis:
+
+```bash
+EMAIL_USERNAME=seuemail@gmail.com
+EMAIL_PASSWORD=sua_app_password
+EMAIL_TO=email_destino@gmail.com
+```
+
+Essas variáveis são utilizadas na pipeline para autenticação e envio do relatório.
+
+---
+
+⚠️ Sem essa configuração, o envio de email não será executado corretamente.
+
+---
+
 ## 🚀 Melhorias futuras
 
 * [ ] Execução paralela por múltiplos browsers
