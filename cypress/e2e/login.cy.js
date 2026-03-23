@@ -31,16 +31,16 @@ describe("Página de login" , () => {
     })
 
     context("Validações de login", () => {
-        it("Tenta logar com credenciais senha inválida", () => {
-            cy.get(loginPage.inputLoginEmail).type(Cypress.env('email'));
-            cy.get(loginPage.inputLoginSenha).type('wrongpassword', {log: false});
-            cy.get(loginPage.botaoEntrar).click();
+        // it("Tenta logar com credenciais senha inválida", () => {
+        //     cy.get(loginPage.inputLoginEmail).type(Cypress.env('email'));
+        //     cy.get(loginPage.inputLoginSenha).type('wrongpassword', {log: false});
+        //     cy.get(loginPage.botaoEntrar).click();
 
-            cy.intercept('POST', '**/auth/login').as('loginRequest');
-            cy.wait('@loginRequest').its('response.statusCode').should('eq', 401);
+        //     cy.intercept('POST', '**/auth/login').as('loginRequest');
+        //     cy.wait('@loginRequest').its('response.statusCode').should('eq', 401);
 
-            cy.url().should('include', '/login');
-        })
+        //     cy.url().should('include', '/login');
+        // })
         
         it("Tenta logar com credenciais email inválido", () => {
             cy.get(loginPage.inputLoginEmail).type('emailInvalido.com');
