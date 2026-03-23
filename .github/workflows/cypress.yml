@@ -29,6 +29,10 @@ jobs:
           npm install
           cd server && npm install
           cd ../web && npm install
+      
+      - name: Limpar reports antigos
+        run : |
+          rm -rf cypress/reports
 
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v7
@@ -70,11 +74,15 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "Cypress Tests - ${{ job.status }}"
-          body: |
-            Status: ${{ job.status }}
-
-            Ver execução:
-            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
           to: ${{ secrets.EMAIL_TO }}
           from: "Cypress CI <${{ secrets.EMAIL_USERNAME }}>"
+          body: |
+            🚀 Execução dos testes finalizada
+
+            📊 Status: ${{ job.status }}
+
+            🔗 Ver pipeline:
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            📎 Relatório em anexo
           attachments: cypress/reports/report.html
