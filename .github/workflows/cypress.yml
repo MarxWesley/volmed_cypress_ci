@@ -89,6 +89,3 @@ jobs:
 
             🔗 Ver pipeline:
             https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
-            📎 Relatório completo em anexo
-          attachments: report.zip
