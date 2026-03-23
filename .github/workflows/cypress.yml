@@ -66,6 +66,11 @@ jobs:
             cypress/screenshots
             cypress/videos
 
+      - name: Compactar relatório
+        if: always()
+        run: |
+          zip -r report.zip cypress/reports
+
       - name: Enviar relatório por email
         if: always()
         uses: dawidd6/action-send-mail@v3
@@ -85,5 +90,5 @@ jobs:
             🔗 Ver pipeline:
             https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-            📎 Relatório em anexo
-          attachments: cypress/reports/report.html
+            📎 Relatório completo em anexo
+          attachments: report.zip
