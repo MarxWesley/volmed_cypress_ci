@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  cypress-run:
+  build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -30,62 +30,72 @@ jobs:
           cd server && npm install
           cd ../web && npm install
       
-      - name: Limpar reports antigos
-        run : |
-          rm -rf cypress/reports
+  test:
+    runs-on: ubuntu-latest
+    needs: build
 
-      - name: Run Cypress Tests
-        uses: cypress-io/github-action@v7
-        with:
-          start: |
-            npm run start:back
-            npm run start:front
-          wait-on: 'http://localhost:3000,http://localhost:8080'
-          wait-on-timeout: 120
-          browser: ${{ matrix.browser }}
-          spec: cypress/e2e/**.cy.js
+    steps:
+    - name: Limpar reports antigos
+      run : |
+        rm -rf cypress/reports
 
-      - name: Gerar relatório Mochawesome
-        if: always()
-        run: |
-          npm run report
+    - name: Run Cypress Tests
+      uses: cypress-io/github-action@v7
+      with:
+        start: |
+          npm run start:back
+          npm run start:front
+        wait-on: 'http://localhost:3000,http://localhost:8080'
+        wait-on-timeout: 120
+        browser: ${{ matrix.browser }}
+        spec: cypress/e2e/**.cy.js
 
-      - name: Upload relatório
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-report
-          path: ./cypress/reports
+  relatorio:
+    runs-on: ubuntu-latest
+    needs: test
 
-      - name: Upload evidências
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-artifacts
-          path: |
-            cypress/screenshots
-            cypress/videos
+    steps:
+    - name: Gerar relatório Mochawesome
+      if: always()
+      run: |
+        npm run report
 
-      - name: Compactar relatório
-        if: always()
-        run: |
-          zip -r report.zip cypress/reports
+    - name: Upload relatório
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: cypress-report
+        path: ./cypress/reports
 
-      - name: Enviar relatório por email
-        if: always()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{ secrets.EMAIL_USERNAME }}
-          password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: "Cypress Tests - ${{ job.status }}"
-          to: ${{ secrets.EMAIL_TO }}
-          from: "Cypress CI <${{ secrets.EMAIL_USERNAME }}>"
-          body: |
-            🚀 Execução dos testes finalizada
+    - name: Upload evidências
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: cypress-artifacts
+        path: |
+          cypress/screenshots
+          cypress/videos
 
-            📊 Status: ${{ job.status }}
+    - name: Compactar relatório
+      if: always()
+      run: |
+        zip -r report.zip cypress/reports
 
-            🔗 Ver pipeline:
-            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    - name: Enviar relatório por email
+      if: always()
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: "Cypress Tests - ${{ job.status }}"
+        to: ${{ secrets.EMAIL_TO }}
+        from: "Cypress CI <${{ secrets.EMAIL_USERNAME }}>"
+        body: |
+          🚀 Execução dos testes finalizada
+
+          📊 Status: ${{ job.status }}
+
+          🔗 Ver pipeline:
+          https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
